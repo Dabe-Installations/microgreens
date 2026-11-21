@@ -162,9 +162,9 @@ let db; try{db=JSON.parse(ls(KEY))||{batches:[]}}catch(e){db={batches:[]}}
 let pending; try{pending=JSON.parse(ls(PKEY))||[]}catch(e){pending=[]}   // changes not yet sent
 let code=ls(CKEY)||'';
 function cache(){ls(KEY,JSON.stringify(db));ls(PKEY,JSON.stringify(pending))}
-function save(b){ if(b){b.updated=new Date().toISOString(); pending=pending.filter(p=>!(p.action==='save'&&p.batch.id===b.id)); pending.push({action:'save',batch:b});} cache(); flush(); }
+function save(b){ if(b){b.updated=new Date().toISOString(); pending=pending.filter(p=>p===inflight||!(p.action==='save'&&p.batch.id===b.id)); pending.push({action:'save',batch:b});} cache(); flush(); }
 function remote(job){ pending.push(job); cache(); flush(); }
-let busy=false;
+let busy=false, inflight=null;
 let lastSync=['…',''];
 function setSync(t,cls){lastSync=[t,cls];const el=document.getElementById('sync'); if(el){el.textContent=t; el.className='sync '+(cls||'')}}
 async function flush(){
@@ -172,14 +172,15 @@ async function flush(){
   try{
     while(pending.length){
       setSync('Saving…','y');
-      const r=await fetch(API,{method:'POST',body:JSON.stringify({...pending[0],code})}).then(r=>r.json());
+      inflight=pending[0];
+      const r=await fetch(API,{method:'POST',body:JSON.stringify({...inflight,code})}).then(r=>r.json());
       if(!r.ok){ if(r.error==='code') return askCode(true); throw 0; }
-      pending.shift(); cache();
+      pending=pending.filter(p=>p!==inflight); inflight=null; cache();
       if(!pending.length) merge(r.batches);
     }
     setSync('Synced ✓');
   }catch(e){ setSync('Offline – will sync','r'); }
-  finally{ busy=false; }
+  finally{ busy=false; inflight=null; }
 }
 async function pull(){
   if(!code) return;
