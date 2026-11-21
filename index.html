@@ -63,6 +63,9 @@
   .card h3{font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
   .card p{color:var(--muted);font-size:14.5px;margin-top:3px;line-height:1.35}
   .card .go{margin-left:auto;flex:0 0 38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:700}
+  .count{display:inline-block;margin-top:8px;font:600 12.5px 'Fredoka',sans-serif;padding:4px 11px;border-radius:99px}
+  .card.mg .count{background:var(--mint);color:var(--green-dark)}
+  .card.sp .count{background:var(--sprout-bg);color:#A8771A}
   .card.mg .go{background:var(--green)}
   .card.sp .go{background:#E0A93A}
   .label{font-family:'Fredoka',sans-serif;font-weight:600;color:var(--green-dark);font-size:15px;letter-spacing:.6px;text-transform:uppercase;margin:10px 4px -6px}
@@ -93,8 +96,8 @@
 <div id="app">
   <header class="rise">
     <div class="top"><img src="icon-192.png" alt=""><span class="brand">Tiny Greens</span></div>
-    <h2>What are we<br>growing today?</h2>
-    <p>Pick one to open its guides.</p>
+    <h2 id="hello">Hello,<br>Gabriel &amp; Myra</h2>
+    <p>What are we growing today?</p>
   </header>
 
   <main>
@@ -104,7 +107,7 @@
           <g stroke="#3E8E41" stroke-width="2.4" stroke-linecap="round"><path d="M14 41V28"/><path d="M24 41V22"/><path d="M34 41V26"/><path d="M44 41V20"/><path d="M52 41V29"/></g>
           <g fill="#7CC46E"><ellipse cx="10" cy="26" rx="5" ry="3"/><ellipse cx="18" cy="26" rx="5" ry="3" fill="#5BAE5B"/><ellipse cx="20" cy="20" rx="5" ry="3"/><ellipse cx="28" cy="20" rx="5" ry="3" fill="#5BAE5B"/><ellipse cx="30" cy="24" rx="5" ry="3"/><ellipse cx="38" cy="24" rx="5" ry="3" fill="#5BAE5B"/><ellipse cx="40" cy="18" rx="5" ry="3"/><ellipse cx="48" cy="18" rx="5" ry="3" fill="#5BAE5B"/><ellipse cx="48" cy="27" rx="5" ry="3"/><ellipse cx="56" cy="27" rx="5" ry="3" fill="#5BAE5B"/></g></svg>
       </div>
-      <div><h3>Microgreens</h3><p>Grown on hemp mats, cut when tiny.</p></div>
+      <div><h3>Microgreens</h3><p>Grown on hemp mats, cut when tiny.</p><span class="count" data-count="Microgreens"></span></div>
       <span class="go">›</span>
     </button>
 
@@ -115,7 +118,7 @@
           <g stroke="#E8D9A8" stroke-width="2" fill="none" stroke-linecap="round"><path d="M24 44c-2-6 2-10 0-14"/><path d="M38 35c2-5-1-8 1-12"/><path d="M29 38c-1-4 2-7 1-10"/></g>
           <g fill="#7CC46E"><ellipse cx="24" cy="29" rx="3.2" ry="2.2"/><ellipse cx="39" cy="22" rx="3.2" ry="2.2"/><ellipse cx="30" cy="27" rx="3.2" ry="2.2"/></g></svg>
       </div>
-      <div><h3>Sprouts</h3><p>Grown in a jar with water, eaten whole.</p></div>
+      <div><h3>Sprouts</h3><p>Grown in a jar with water, eaten whole.</p><span class="count" data-count="Sprouts"></span></div>
       <span class="go">›</span>
     </button>
 
@@ -134,6 +137,18 @@
 </div>
 
 <script>
+  // Greeting by time of day
+  const h = new Date().getHours();
+  const part = h < 5 ? 'Good evening' : h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  document.getElementById('hello').innerHTML = part + ',<br>Gabriel &amp; Myra';
+
+  // How many guides each section has (update when new guides are added)
+  const GUIDES = { Microgreens: 1, Sprouts: 0 };
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const n = GUIDES[el.dataset.count] || 0;
+    el.textContent = n === 0 ? 'Coming soon' : n === 1 ? '1 guide' : n + ' guides';
+  });
+
   // Splash → app
   window.addEventListener('load', () => {
     setTimeout(() => {
