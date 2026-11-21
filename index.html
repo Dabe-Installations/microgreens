@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Tiny Greens</title>
+<meta name="theme-color" content="#5BAE5B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Tiny Greens">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#5BAE5B; --green-dark:#3E8E41; --leaf:#7CC46E; --mint:#E6F4E1;
+    --cream:#FFF8EC; --pot:#E9A15A; --sprout:#F4C95D; --sprout-bg:#FFF1CC;
+    --ink:#2F3A2F; --muted:#6F7B6C;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;background:var(--cream);color:var(--ink);font-family:'Nunito',system-ui,sans-serif;overflow:hidden;overscroll-behavior:none}
+
+  /* ---------- SPLASH ---------- */
+  #splash{position:fixed;inset:0;z-index:10;background:var(--green);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;transition:transform .7s cubic-bezier(.7,0,.3,1), opacity .5s ease .25s}
+  #splash.gone{transform:translateY(-100%);opacity:0;pointer-events:none}
+  #splash .logo{width:150px;height:150px;border-radius:38px;box-shadow:0 14px 34px rgba(0,0,0,.18);transform:scale(0);animation:pop .7s cubic-bezier(.34,1.56,.64,1) .2s forwards}
+  #splash h1{font-family:'Fredoka',sans-serif;font-weight:700;color:#fff;font-size:32px;letter-spacing:.5px;opacity:0;transform:translateY(12px);animation:up .5s ease .75s forwards}
+  .bar{width:140px;height:8px;border-radius:99px;background:rgba(255,255,255,.3);overflow:hidden;opacity:0;animation:fade .3s ease .95s forwards}
+  .bar i{display:block;height:100%;width:0;border-radius:99px;background:#fff;animation:load 1.3s ease-in-out 1s forwards}
+  @keyframes pop{to{transform:scale(1)}}
+  @keyframes up{to{opacity:1;transform:none}}
+  @keyframes fade{to{opacity:1}}
+  @keyframes load{to{width:100%}}
+
+  /* ---------- APP ---------- */
+  #app{height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(30px + env(safe-area-inset-bottom))}
+  .rise{opacity:0;transform:translateY(90px)}
+  .ready .rise{animation:rise .8s cubic-bezier(.2,.9,.3,1.15) forwards}
+  .ready .rise:nth-child(1){animation-delay:.05s}
+  .ready .d1{animation-delay:.15s!important}
+  .ready .d2{animation-delay:.3s!important}
+  .ready .d3{animation-delay:.45s!important}
+  .ready .d4{animation-delay:.6s!important}
+  @keyframes rise{to{opacity:1;transform:none}}
+
+  header{background:var(--green);color:#fff;padding:calc(22px + env(safe-area-inset-top)) 24px 54px;border-radius:0 0 36px 36px;position:relative}
+  header .top{display:flex;align-items:center;gap:12px}
+  header img{width:46px;height:46px;border-radius:14px;box-shadow:0 4px 10px rgba(0,0,0,.15)}
+  header .brand{font-family:'Fredoka',sans-serif;font-weight:700;font-size:22px}
+  header h2{font-family:'Fredoka',sans-serif;font-weight:600;font-size:30px;line-height:1.15;margin-top:26px}
+  header p{opacity:.92;margin-top:6px;font-size:16px}
+
+  main{padding:0 20px;margin-top:-30px;display:flex;flex-direction:column;gap:18px;max-width:520px;margin-left:auto;margin-right:auto}
+  .card{display:flex;align-items:center;gap:18px;background:#fff;border-radius:28px;padding:22px 20px;box-shadow:0 10px 26px rgba(62,142,65,.14);border:none;text-align:left;font:inherit;color:inherit;width:100%;cursor:pointer;transition:transform .15s ease}
+  .card:active{transform:scale(.97)}
+  .card .art{flex:0 0 92px;height:92px;border-radius:24px;display:flex;align-items:center;justify-content:center}
+  .card.mg .art{background:var(--mint)}
+  .card.sp .art{background:var(--sprout-bg)}
+  .card h3{font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
+  .card p{color:var(--muted);font-size:14.5px;margin-top:3px;line-height:1.35}
+  .card .go{margin-left:auto;flex:0 0 38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:700}
+  .card.mg .go{background:var(--green)}
+  .card.sp .go{background:#E0A93A}
+  .label{font-family:'Fredoka',sans-serif;font-weight:600;color:var(--green-dark);font-size:15px;letter-spacing:.6px;text-transform:uppercase;margin:10px 4px -6px}
+  .tip{background:var(--mint);border-radius:22px;padding:16px 18px;font-size:14.5px;color:var(--green-dark);display:flex;gap:12px;align-items:flex-start;line-height:1.4}
+  .tip b{font-family:'Fredoka',sans-serif;font-weight:600}
+
+  /* bottom sheet */
+  #sheet-bg{position:fixed;inset:0;background:rgba(30,40,30,.35);opacity:0;pointer-events:none;transition:opacity .3s;z-index:20}
+  #sheet{position:fixed;left:0;right:0;bottom:0;z-index:21;background:#fff;border-radius:30px 30px 0 0;padding:14px 24px calc(28px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .45s cubic-bezier(.2,.9,.3,1.1);text-align:center}
+  #sheet .grip{width:44px;height:5px;border-radius:9px;background:#DDE5D9;margin:0 auto 18px}
+  #sheet h3{font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px;margin-top:8px}
+  #sheet p{color:var(--muted);margin:8px 0 20px}
+  #sheet button{border:none;background:var(--green);color:#fff;font:600 17px 'Fredoka',sans-serif;padding:14px 34px;border-radius:99px}
+  body.sheet-open #sheet-bg{opacity:1;pointer-events:auto}
+  body.sheet-open #sheet{transform:none}
+</style>
+</head>
+<body>
+
+<!-- Splash screen -->
+<div id="splash">
+  <img class="logo" src="icon-512.png" alt="">
+  <h1>Tiny Greens</h1>
+  <div class="bar"><i></i></div>
+</div>
+
+<!-- App -->
+<div id="app">
+  <header class="rise">
+    <div class="top"><img src="icon-192.png" alt=""><span class="brand">Tiny Greens</span></div>
+    <h2>What are we<br>growing today?</h2>
+    <p>Pick one to open its guides.</p>
+  </header>
+
+  <main>
+    <button class="card mg rise d1" data-pick="Microgreens">
+      <div class="art">
+        <svg width="66" height="66" viewBox="0 0 64 64"><rect x="6" y="44" width="52" height="12" rx="5" fill="#9DBFA0"/><rect x="8" y="39" width="48" height="7" rx="3.5" fill="#E8D6AE"/><g stroke="#D4BE8E" stroke-width="1"><path d="M12 42h40"/><path d="M14 44h36"/></g>
+          <g stroke="#3E8E41" stroke-width="2.4" stroke-linecap="round"><path d="M14 41V28"/><path d="M24 41V22"/><path d="M34 41V26"/><path d="M44 41V20"/><path d="M52 41V29"/></g>
+          <g fill="#7CC46E"><ellipse cx="10" cy="26" rx="5" ry="3"/><ellipse cx="18" cy="26" rx="5" ry="3" fill="#5BAE5B"/><ellipse cx="20" cy="20" rx="5" ry="3"/><ellipse cx="28" cy="20" rx="5" ry="3" fill="#5BAE5B"/><ellipse cx="30" cy="24" rx="5" ry="3"/><ellipse cx="38" cy="24" rx="5" ry="3" fill="#5BAE5B"/><ellipse cx="40" cy="18" rx="5" ry="3"/><ellipse cx="48" cy="18" rx="5" ry="3" fill="#5BAE5B"/><ellipse cx="48" cy="27" rx="5" ry="3"/><ellipse cx="56" cy="27" rx="5" ry="3" fill="#5BAE5B"/></g></svg>
+      </div>
+      <div><h3>Microgreens</h3><p>Grown on hemp mats, cut when tiny.</p></div>
+      <span class="go">›</span>
+    </button>
+
+    <button class="card sp rise d2" data-pick="Sprouts">
+      <div class="art">
+        <svg width="66" height="66" viewBox="0 0 64 64"><path d="M14 22h36v28a8 8 0 0 1-8 8H22a8 8 0 0 1-8-8z" fill="#CFE8F2" opacity=".9"/><rect x="12" y="16" width="40" height="8" rx="4" fill="#9CC9DA"/>
+          <g fill="#F4E3B5"><ellipse cx="24" cy="48" rx="5" ry="4"/><ellipse cx="34" cy="50" rx="5" ry="4"/><ellipse cx="42" cy="46" rx="5" ry="4"/><ellipse cx="29" cy="42" rx="5" ry="4"/><ellipse cx="38" cy="39" rx="5" ry="4"/></g>
+          <g stroke="#E8D9A8" stroke-width="2" fill="none" stroke-linecap="round"><path d="M24 44c-2-6 2-10 0-14"/><path d="M38 35c2-5-1-8 1-12"/><path d="M29 38c-1-4 2-7 1-10"/></g>
+          <g fill="#7CC46E"><ellipse cx="24" cy="29" rx="3.2" ry="2.2"/><ellipse cx="39" cy="22" rx="3.2" ry="2.2"/><ellipse cx="30" cy="27" rx="3.2" ry="2.2"/></g></svg>
+      </div>
+      <div><h3>Sprouts</h3><p>Grown in a jar with water, eaten whole.</p></div>
+      <span class="go">›</span>
+    </button>
+
+    <div class="label rise d3">Good to know</div>
+    <div class="tip rise d4"><span style="font-size:22px">🌱</span><div><b>Every grow gets documented.</b> Each guide is our own notes — what we did, what worked, and what to change next time.</div></div>
+  </main>
+</div>
+
+<!-- Bottom sheet (placeholder until guides are linked) -->
+<div id="sheet-bg"></div>
+<div id="sheet">
+  <div class="grip"></div>
+  <h3 id="sheet-title">Microgreens</h3>
+  <p>Guides coming soon — we're growing them now!</p>
+  <button id="sheet-close">OK</button>
+</div>
+
+<script>
+  // Splash → app
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('splash').classList.add('gone');
+      document.body.classList.add('ready');
+    }, 2500);
+  });
+
+  // Choice cards (later these will link to microgreens.html / sprouts.html)
+  const body = document.body;
+  document.querySelectorAll('[data-pick]').forEach(b => b.addEventListener('click', () => {
+    document.getElementById('sheet-title').textContent = b.dataset.pick;
+    body.classList.add('sheet-open');
+  }));
+  ['sheet-bg','sheet-close'].forEach(id => document.getElementById(id).addEventListener('click', () => body.classList.remove('sheet-open')));
+
+  // Works offline once installed
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
