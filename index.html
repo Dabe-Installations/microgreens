@@ -68,6 +68,10 @@
   .card.sp .count{background:var(--sprout-bg);color:#A8771A}
   .card.mg .go{background:var(--green)}
   .card.sp .go{background:#E0A93A}
+  a.card{text-decoration:none}
+  .card.cr .art{background:#E7EEFA}
+  .card.cr .count{background:#E7EEFA;color:#4A6AA8}
+  .card.cr .go{background:#7E9BD1}
   .label{font-family:'Fredoka',sans-serif;font-weight:600;color:var(--green-dark);font-size:15px;letter-spacing:.6px;text-transform:uppercase;margin:10px 4px -6px}
   .tip{background:var(--mint);border-radius:22px;padding:16px 18px;font-size:14.5px;color:var(--green-dark);display:flex;gap:12px;align-items:flex-start;line-height:1.4}
   .tip b{font-family:'Fredoka',sans-serif;font-weight:600}
@@ -122,7 +126,18 @@
       <span class="go">›</span>
     </button>
 
-    <div class="label rise d3">Good to know</div>
+    <div class="label rise d3">My Crops</div>
+    <a class="card cr rise d3" href="logbook.html">
+      <div class="art">
+        <svg width="66" height="66" viewBox="0 0 64 64"><rect x="14" y="8" width="36" height="48" rx="6" fill="#FFFFFF" stroke="#B9C9E6" stroke-width="2"/><rect x="24" y="4" width="16" height="9" rx="3" fill="#7E9BD1"/>
+          <g stroke="#7E9BD1" stroke-width="2.4" stroke-linecap="round" fill="none"><path d="M20 24l3 3 5-6"/><path d="M20 36l3 3 5-6"/></g>
+          <g stroke="#C9D5EC" stroke-width="3" stroke-linecap="round"><path d="M32 25h12"/><path d="M32 37h12"/><path d="M22 48h22"/></g></svg>
+      </div>
+      <div><h3>My Crops</h3><p>Track every tray we're growing, day by day.</p><span class="count">Grow Log</span></div>
+      <span class="go">›</span>
+    </a>
+
+    <div class="label rise d4">Good to know</div>
     <div class="tip rise d4"><span style="font-size:22px">🌱</span><div><b>Every grow gets documented.</b> Each guide is our own notes — what we did, what worked, and what to change next time.</div></div>
   </main>
 </div>
