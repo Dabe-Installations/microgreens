@@ -157,9 +157,11 @@
     }, 2500);
   });
 
-  // Choice cards (later these will link to microgreens.html / sprouts.html)
+  // Choice cards: open the section page if it exists, otherwise show 'coming soon'
   const body = document.body;
+  const PAGES = { Microgreens: 'microgreens.html' };
   document.querySelectorAll('[data-pick]').forEach(b => b.addEventListener('click', () => {
+    if (PAGES[b.dataset.pick]) { location.href = PAGES[b.dataset.pick]; return; }
     document.getElementById('sheet-title').textContent = b.dataset.pick;
     body.classList.add('sheet-open');
   }));
