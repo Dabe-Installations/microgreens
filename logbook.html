@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Grow Log · Tiny Greens</title>
+<meta name="theme-color" content="#5BAE5B">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#5BAE5B; --green-dark:#3E8E41; --leaf:#7CC46E; --mint:#E6F4E1;
+    --cream:#FFF8EC; --sprout:#F4C95D; --sprout-bg:#FFF1CC; --red:#D9645A; --red-bg:#FCE6E3;
+    --ink:#2F3A2F; --muted:#6F7B6C; --line:#E7EEE3;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{background:var(--cream);color:var(--ink);font-family:'Nunito',system-ui,sans-serif;font-size:16px}
+  body{padding-bottom:calc(110px + env(safe-area-inset-bottom))}
+  h1,h2,h3,.f{font-family:'Fredoka',sans-serif}
+  button{font:inherit;color:inherit;border:none;background:none;cursor:pointer}
+  input,textarea,select{font:inherit;color:var(--ink);width:100%;border:2px solid var(--line);background:#fff;border-radius:16px;padding:12px 14px;outline:none;-webkit-appearance:none;appearance:none}
+  input:focus,textarea:focus,select:focus{border-color:var(--leaf)}
+  textarea{resize:vertical;min-height:84px}
+  label.lbl{display:block;font-weight:700;font-size:14px;color:var(--muted);margin:14px 4px 6px}
+
+  header{background:var(--green);color:#fff;padding:calc(18px + env(safe-area-inset-top)) 22px 50px;border-radius:0 0 34px 34px}
+  header .row{display:flex;align-items:center;gap:10px}
+  .back{background:rgba(255,255,255,.22);color:#fff;border-radius:99px;padding:7px 14px 7px 10px;font-weight:700;font-size:15px}
+  header h1{font-weight:600;font-size:30px;line-height:1.15;margin-top:20px}
+  header p{opacity:.92;margin-top:4px}
+  .daybig{display:flex;align-items:flex-end;gap:14px;margin-top:18px}
+  .daybig .n{font-family:'Fredoka';font-weight:700;font-size:54px;line-height:.9}
+  .daybig .s{opacity:.92;font-size:14.5px;line-height:1.35;padding-bottom:4px}
+
+  main{padding:0 18px;margin:-28px auto 0;max-width:540px;display:flex;flex-direction:column;gap:16px}
+  .card{background:#fff;border-radius:26px;padding:18px;box-shadow:0 10px 26px rgba(62,142,65,.12)}
+  .sec{font-family:'Fredoka';font-weight:600;color:var(--green-dark);font-size:15px;letter-spacing:.6px;text-transform:uppercase;margin:10px 4px -4px;display:flex;justify-content:space-between;align-items:center}
+  main>.sec:first-child{margin-top:40px}
+  .sec small{font-family:'Nunito';text-transform:none;letter-spacing:0;font-weight:700;color:var(--muted);font-size:13px}
+  .muted{color:var(--muted)}
+  .pill{display:inline-block;border-radius:99px;padding:3px 10px;font-size:12.5px;font-weight:800;background:var(--mint);color:var(--green-dark)}
+  .pill.y{background:var(--sprout-bg);color:#A57B12}
+  .pill.r{background:var(--red-bg);color:var(--red)}
+  .pill.g{background:#EEF1EC;color:var(--muted)}
+
+  /* batch list */
+  .batch{display:flex;gap:14px;align-items:center;text-align:left;width:100%}
+  .batch .ic{flex:0 0 60px;height:60px;border-radius:20px;background:var(--mint);display:flex;align-items:center;justify-content:center;font-size:28px}
+  .batch h3{font-weight:600;font-size:20px}
+  .batch .meta{font-size:13.5px;color:var(--muted);margin-top:2px}
+  .prog{height:8px;border-radius:9px;background:var(--line);overflow:hidden;margin-top:8px}
+  .prog i{display:block;height:100%;background:var(--leaf);border-radius:9px}
+  .go{margin-left:auto;flex:0 0 34px;height:34px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800}
+  .empty{text-align:center;padding:30px 18px}
+  .empty .big{font-size:46px}
+  .empty h3{font-weight:600;font-size:22px;margin-top:8px}
+
+  /* floating button */
+  .fab{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(22px + env(safe-area-inset-bottom));background:var(--green);color:#fff;font-family:'Fredoka';font-weight:600;font-size:18px;padding:15px 30px;border-radius:99px;box-shadow:0 10px 24px rgba(62,142,65,.35);z-index:5;white-space:nowrap}
+  .fab:active{transform:translateX(-50%) scale(.96)}
+
+  /* setup facts */
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .fact{background:var(--cream);border-radius:16px;padding:10px 12px}
+  .fact b{display:block;font-size:12px;color:var(--muted);font-weight:700}
+  .fact span{font-weight:800;font-size:15.5px}
+
+  /* steps */
+  .step{border-top:2px solid var(--line);padding:14px 0}
+  .step:first-of-type{border-top:none;padding-top:4px}
+  .step .top{display:flex;gap:12px;align-items:flex-start}
+  .tick{flex:0 0 34px;height:34px;border-radius:50%;border:2.5px solid #CBDCC5;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:17px;transition:all .2s}
+  .step.done .tick{background:var(--green);border-color:var(--green)}
+  .step .t{flex:1}
+  .step .t h4{font-family:'Fredoka';font-weight:600;font-size:17.5px;line-height:1.25}
+  .step.done .t h4{color:var(--green-dark)}
+  .step .t .d{font-size:13px;color:var(--muted);margin-top:2px}
+  .step .when{font-size:12.5px;font-weight:800;color:var(--green-dark);margin-top:3px}
+  .addc{font-size:13.5px;font-weight:800;color:var(--green-dark);background:var(--mint);border-radius:99px;padding:6px 12px;margin-top:9px}
+  .comment{background:var(--cream);border-radius:14px;padding:9px 12px;margin-top:8px;font-size:14.5px;line-height:1.4;position:relative}
+  .comment .ts{display:block;font-size:11.5px;color:var(--muted);font-weight:700;margin-bottom:2px}
+  .comment .x{position:absolute;right:8px;top:6px;color:#B7C2B3;font-size:16px;padding:2px 6px}
+  .comments{margin-left:46px}
+
+  /* daily log */
+  .entry{border-top:2px solid var(--line);padding:12px 0}
+  .entry:first-of-type{border-top:none;padding-top:2px}
+  .entry .h{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .entry .h b{font-family:'Fredoka';font-weight:600;font-size:16px}
+  .entry .nums{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .entry p{margin-top:6px;font-size:14.5px;line-height:1.4}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{border:2px solid var(--line);border-radius:99px;padding:7px 13px;font-weight:700;font-size:14px;background:#fff}
+  .chip.on{background:var(--mint);border-color:var(--leaf);color:var(--green-dark)}
+  .chip.on.bad{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+
+  /* harvest */
+  .stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:6px}
+  .stat{background:var(--mint);border-radius:16px;padding:10px 8px;text-align:center}
+  .stat b{display:block;font-family:'Fredoka';font-weight:700;font-size:21px;color:var(--green-dark)}
+  .stat span{font-size:11.5px;font-weight:700;color:var(--muted)}
+  .stars{display:flex;gap:6px}
+  .stars button{font-size:30px;line-height:1;color:#DCE4D8}
+  .stars button.on{color:var(--sprout)}
+  .btn{display:block;width:100%;text-align:center;background:var(--green);color:#fff;font-family:'Fredoka';font-weight:600;font-size:17px;padding:14px;border-radius:99px;margin-top:16px}
+  .btn.ghost{background:var(--mint);color:var(--green-dark)}
+  .btn.danger{background:none;color:var(--red);font-size:15px;margin-top:6px}
+  .sync{margin-left:auto;font-size:12.5px;font-weight:800;background:rgba(255,255,255,.22);color:#fff;border-radius:99px;padding:5px 11px}
+  .sync.y{background:#FFF1CC;color:#A57B12}.sync.r{background:#FCE6E3;color:#D9645A}
+  .saved{font-size:13px;font-weight:800;color:var(--green-dark);text-align:center;margin-top:8px;opacity:0;transition:opacity .3s}
+  .saved.show{opacity:1}
+
+  /* sheet */
+  #sheet-bg{position:fixed;inset:0;background:rgba(30,40,30,.38);opacity:0;pointer-events:none;transition:opacity .25s;z-index:20}
+  #sheet{position:fixed;left:0;right:0;bottom:0;z-index:21;background:#fff;border-radius:30px 30px 0 0;padding:12px 22px calc(24px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .4s cubic-bezier(.2,.9,.3,1.05);max-height:90vh;overflow-y:auto;max-width:600px;margin:0 auto}
+  #sheet .grip{width:44px;height:5px;border-radius:9px;background:#DDE5D9;margin:0 auto 14px}
+  #sheet h3{font-weight:600;font-size:22px}
+  body.sheet-open #sheet-bg{opacity:1;pointer-events:auto}
+  body.sheet-open #sheet{transform:none}
+</style>
+</head>
+<body>
+<div id="view"></div>
+
+<div id="sheet-bg"></div>
+<div id="sheet"><div class="grip"></div><div id="sheet-body"></div></div>
+
+<script>
+/* ============ CROP TEMPLATES (steps come from the growing guides) ============ */
+const CROPS = {
+  Wheatgrass: { icon:'🌾', seed:'75–90 g', harvestDays:'8–12', steps:[
+    {k:'soak',   t:'Soak the seed',            d:'Day 0 · Rinse well, soak 8–12 hrs in cool water'},
+    {k:'pre',    t:'Pre-sprout (optional)',    d:'Day 0–1 · In a jar 12–24 hrs until root tips show'},
+    {k:'mat',    t:'Prep the hemp mat',        d:'Day 1 · Cut to 15x30, soak, tip out extra water'},
+    {k:'sow',    t:'Sow thick and even',       d:'Day 1 · One dense layer, press in, mist well'},
+    {k:'black',  t:'Blackout + weight',        d:'Day 1–4 · Cover, 1–2 kg on top, mist 1–2× a day'},
+    {k:'uncover',t:'Uncover and give light',   d:'Day 3–5 · At 2–5 cm, lights 12–16 hrs'},
+    {k:'bottom', t:'Start bottom watering',    d:'Day 4+ · 100–150 ml in bottom tray daily, fan on low'},
+    {k:'dry',    t:'Stop watering (harvest dry)', d:'~12 hrs before cutting'},
+    {k:'harvest',t:'Harvest',                  d:'Day 8–12 · At 15–20 cm, before 2nd blade splits'},
+    {k:'store',  t:'Store and clean up',       d:'Fridge, dry, paper towel · compost mat · sanitise trays'},
+  ]},
+  Other: { icon:'🌱', seed:'', harvestDays:'', steps:[
+    {k:'soak',t:'Soak / rinse seed',d:''},{k:'mat',t:'Prep the hemp mat',d:''},
+    {k:'sow',t:'Sow',d:''},{k:'black',t:'Blackout + weight',d:''},
+    {k:'uncover',t:'Uncover and give light',d:''},{k:'bottom',t:'Bottom watering',d:''},
+    {k:'harvest',t:'Harvest',d:''},{k:'store',t:'Store and clean up',d:''},
+  ]},
+};
+const TAGS = ['Looks good','Growing fast','Too wet','Too dry','Mould?','Root hairs','Patchy','Pale/yellow','Smell'];
+const BAD  = ['Too wet','Too dry','Mould?','Patchy','Pale/yellow','Smell'];
+
+/* ============ STORAGE (shared Google Sheet + copy on this phone) ============ */
+const API='https://script.google.com/macros/s/AKfycbyOOIuhPWxbjBvwyG3P22qwols2VA8vw3LzADxtHsMgifvlgHm5e6ygUDoXREh2ImwDHQ/exec';
+const KEY='tinygreens-log-v1', CKEY='tinygreens-code', PKEY='tinygreens-pending';
+function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+let db; try{db=JSON.parse(ls(KEY))||{batches:[]}}catch(e){db={batches:[]}}
+let pending; try{pending=JSON.parse(ls(PKEY))||[]}catch(e){pending=[]}   // changes not yet sent
+let code=ls(CKEY)||'';
+function cache(){ls(KEY,JSON.stringify(db));ls(PKEY,JSON.stringify(pending))}
+function save(b){ if(b){b.updated=new Date().toISOString(); pending=pending.filter(p=>!(p.action==='save'&&p.batch.id===b.id)); pending.push({action:'save',batch:b});} cache(); flush(); }
+function remote(job){ pending.push(job); cache(); flush(); }
+let busy=false;
+let lastSync=['…',''];
+function setSync(t,cls){lastSync=[t,cls];const el=document.getElementById('sync'); if(el){el.textContent=t; el.className='sync '+(cls||'')}}
+async function flush(){
+  if(busy||!code) return; busy=true;
+  try{
+    while(pending.length){
+      setSync('Saving…','y');
+      const r=await fetch(API,{method:'POST',body:JSON.stringify({...pending[0],code})}).then(r=>r.json());
+      if(!r.ok){ if(r.error==='code') return askCode(true); throw 0; }
+      pending.shift(); cache();
+      if(!pending.length) merge(r.batches);
+    }
+    setSync('Synced ✓');
+  }catch(e){ setSync('Offline – will sync','r'); }
+  finally{ busy=false; }
+}
+async function pull(){
+  if(!code) return;
+  if(pending.length) return flush();
+  try{
+    setSync('Syncing…','y');
+    const r=await fetch(API+'?code='+encodeURIComponent(code)).then(r=>r.json());
+    if(!r.ok){ if(r.error==='code') return askCode(true); throw 0; }
+    merge(r.batches); setSync('Synced ✓');
+  }catch(e){ setSync('Offline','r'); }
+}
+function merge(list){
+  const before=JSON.stringify(db.batches);
+  const keep=pending.filter(p=>p.action==='save').map(p=>p.batch);   // unsent local changes win
+  db.batches=list.filter(b=>!keep.some(k=>k.id===b.id)).concat(keep);
+  cache();
+  const typing=document.body.classList.contains('sheet-open')||['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName);
+  if(JSON.stringify(db.batches)!==before && !typing) keepScroll(render);
+}
+function askCode(wrong){
+  document.getElementById('view').innerHTML=`
+  <header><h1>Grow Log</h1><p>Enter your family code to open the shared log.</p></header>
+  <main><div class="card">
+    <label class="lbl">Code</label><input id="code" autocapitalize="off" autocomplete="off" placeholder="Code">
+    ${wrong?'<p style="color:var(--red);font-weight:700;margin-top:8px">That code didn’t work. Try again.</p>':''}
+    <button class="btn" onclick="code=document.getElementById('code').value.trim().toLowerCase();ls(CKEY,code);render();pull()">Open log</button>
+  </div></main>`;
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)pull()});
+window.addEventListener('online',flush);
+setInterval(()=>{if(!document.hidden)pull()},60000);
+
+/* ============ HELPERS ============ */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const today=()=>{const d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)};
+const nowLocal=()=>{const d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,16)};
+const fmtD=s=>s?new Date(s.length<=10?s+'T00:00':s).toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'}):'';
+const fmtDT=s=>s?new Date(s).toLocaleString('en-AU',{weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):'';
+const dayNo=(start,at)=>{const a=new Date(start+'T00:00'),b=at?new Date(at):new Date();b.setHours(0,0,0,0);return Math.round((b-a)/864e5)};
+const keepScroll=fn=>{const y=scrollY;fn();scrollTo(0,y)};
+const get=id=>db.batches.find(b=>b.id===id);
+const doneCount=b=>b.steps.filter(s=>s.done).length;
+
+/* ============ ROUTER ============ */
+function go(h){location.hash=h}
+window.addEventListener('hashchange',()=>{render();scrollTo(0,0)});
+function render(){ route(); setSync(...lastSync); }
+function route(){
+  closeSheet();
+  if(!code) return askCode();
+  const h=location.hash.slice(1);
+  if(h==='new') return viewNew();
+  if(h.startsWith('b/')){const b=get(h.slice(2)); if(b) return viewBatch(b);}
+  viewList();
+}
+
+/* ============ LIST ============ */
+function viewList(){
+  const growing=db.batches.filter(b=>b.status!=='done').sort((a,b)=>b.start.localeCompare(a.start));
+  const done=db.batches.filter(b=>b.status==='done').sort((a,b)=>b.start.localeCompare(a.start));
+  const card=b=>{
+    const c=CROPS[b.crop]||CROPS.Other, pct=Math.round(doneCount(b)/b.steps.length*100);
+    const sub=b.status==='done'
+      ? `Harvested ${fmtD(b.harvest.date)}${b.harvest.weight?' · '+b.harvest.weight+' g':''}`
+      : `Day ${dayNo(b.start)} · started ${fmtD(b.start)}`;
+    return `<button class="card batch" onclick="go('b/${b.id}')">
+      <div class="ic">${c.icon}</div>
+      <div style="flex:1;min-width:0"><h3>${esc(b.crop)} <span class="muted" style="font-size:15px">#${b.no}</span></h3>
+      <div class="meta">${sub}</div><div class="prog"><i style="width:${pct}%"></i></div></div>
+      <span class="go">›</span></button>`;
+  };
+  $('#view').innerHTML=`
+  <header>
+    <div class="row"><button class="back" onclick="location.href='index.html'">‹ Home</button><span id="sync" class="sync">…</span></div>
+    <h1>Grow Log</h1><p>Every tray, every step, every harvest.</p>
+  </header>
+  <main>
+    ${db.batches.length?'':`<div class="card empty"><div class="big">📒</div><h3>No grows yet</h3><p class="muted" style="margin-top:6px">Tap <b>+ New grow</b> when you start soaking seed.</p></div>`}
+    ${growing.length?`<div class="sec">Growing now <small>${growing.length}</small></div>`+growing.map(card).join(''):''}
+    ${done.length?`<div class="sec">Finished <small>${done.length}</small></div>`+done.map(card).join(''):''}
+  </main>
+  <button class="fab" onclick="go('new')">+ New grow</button>`;
+}
+
+/* ============ NEW GROW ============ */
+function viewNew(){
+  const nextNo=db.batches.reduce((m,b)=>Math.max(m,b.no),0)+1;
+  $('#view').innerHTML=`
+  <header><div class="row"><button class="back" onclick="go('')">‹ Log</button></div>
+    <h1>New grow</h1><p>Start this when you begin soaking.</p></header>
+  <main><div class="card">
+    <label class="lbl">Crop</label>
+    <select id="n-crop" onchange="seedHint()">${Object.keys(CROPS).map(k=>`<option>${k}</option>`).join('')}</select>
+    <div id="n-other" style="display:none"><label class="lbl">Crop name</label><input id="n-oname" placeholder="e.g. Sunflower"></div>
+    <div class="grid2">
+      <div><label class="lbl">Batch #</label><input id="n-no" type="number" inputmode="numeric" value="${nextNo}"></div>
+      <div><label class="lbl">Start (soak) date</label><input id="n-start" type="date" value="${today()}"></div>
+    </div>
+    <div class="grid2">
+      <div><label class="lbl">Trays</label><input id="n-trays" type="number" inputmode="numeric" value="1"></div>
+      <div><label class="lbl">Tray size</label><input id="n-size" value="15x30 cm"></div>
+    </div>
+    <label class="lbl">Dry seed per tray (g) <span id="n-hint" style="font-weight:600"></span></label>
+    <input id="n-seed" type="number" inputmode="decimal" placeholder="e.g. 85">
+    <label class="lbl">Seed supplier / lot</label><input id="n-src" placeholder="Where the seed came from">
+    <label class="lbl">Where it's growing</label><input id="n-loc" placeholder="e.g. Shelf 2, under LED">
+    <label class="lbl">Notes to start</label><textarea id="n-note" placeholder="Anything different this time? Peroxide rinse, new mat brand…"></textarea>
+    <button class="btn" onclick="createBatch()">Start logging</button>
+  </div></main>`;
+  seedHint();
+}
+function seedHint(){
+  const k=$('#n-crop').value; $('#n-other').style.display=k==='Other'?'block':'none';
+  $('#n-hint').textContent=CROPS[k].seed?`· guide says ${CROPS[k].seed}`:'';
+}
+function createBatch(){
+  const k=$('#n-crop').value, name=k==='Other'?($('#n-oname').value.trim()||'Other'):k;
+  const b={id:uid(),crop:name,tmpl:k,no:+$('#n-no').value||1,start:$('#n-start').value||today(),
+    trays:+$('#n-trays').value||1,size:$('#n-size').value,seed:$('#n-seed').value,src:$('#n-src').value,
+    loc:$('#n-loc').value,note:$('#n-note').value,status:'growing',created:new Date().toISOString(),
+    steps:CROPS[k].steps.map(s=>({...s,done:false,at:null,comments:[]})),log:[],
+    harvest:{date:'',weight:'',height:'',taste:0,quality:0,used:'',notes:'',next:''}};
+  db.batches.push(b); save(b); go('b/'+b.id);
+}
+
+/* ============ BATCH PAGE ============ */
+function viewBatch(b){
+  const c=CROPS[b.tmpl]||CROPS.Other, d=dayNo(b.start), h=b.harvest;
+  const totalSeed=b.seed?(+b.seed*b.trays):0;
+  const yieldTray=h.weight?Math.round(+h.weight/b.trays):'';
+  const ratio=(h.weight&&totalSeed)?(+h.weight/totalSeed).toFixed(1):'';
+  const days=h.date?dayNo(b.start,h.date+'T12:00'):'';
+  $('#view').innerHTML=`
+  <header>
+    <div class="row"><button class="back" onclick="go('')">‹ Log</button>
+      <span id="sync" class="sync">…</span></div>
+    <h1>${c.icon} ${esc(b.crop)} #${b.no}</h1>
+    <div class="daybig">
+      <div class="n">${b.status==='done'&&days!==''?days:d}</div>
+      <div class="s">${b.status==='done'?'days to harvest':'Day today'}<br>Started ${fmtD(b.start)} · ${doneCount(b)}/${b.steps.length} steps</div>
+    </div>
+  </header>
+  <main>
+    <div class="card">
+      <div class="facts">
+        <div class="fact"><b>Trays</b><span>${b.trays} × ${esc(b.size)}</span></div>
+        <div class="fact"><b>Seed per tray</b><span>${b.seed?esc(b.seed)+' g':'—'}</span></div>
+        <div class="fact"><b>Seed / lot</b><span>${esc(b.src)||'—'}</span></div>
+        <div class="fact"><b>Location</b><span>${esc(b.loc)||'—'}</span></div>
+      </div>
+      ${b.note?`<div class="comment" style="margin-top:12px"><span class="ts">Start notes</span>${esc(b.note)}</div>`:''}
+      <button class="addc" onclick="editSetup('${b.id}')">✎ Edit details</button>
+    </div>
+
+    <div class="sec">Steps <small>tap the circle to tick</small></div>
+    <div class="card">
+      ${b.steps.map((s,i)=>`
+      <div class="step ${s.done?'done':''}">
+        <div class="top">
+          <button class="tick" onclick="toggleStep('${b.id}',${i})">${s.done?'✓':''}</button>
+          <div class="t"><h4>${esc(s.t)}</h4>
+            ${s.d?`<div class="d">${esc(s.d)}</div>`:''}
+            ${s.done&&s.at?`<div class="when">✓ ${fmtDT(s.at)} · Day ${dayNo(b.start,s.at)}</div>`:''}
+            <button class="addc" onclick="addComment('${b.id}',${i})">+ Comment</button>
+          </div>
+        </div>
+        ${s.comments.length?`<div class="comments">${s.comments.map((cm,j)=>`
+          <div class="comment"><span class="ts">${fmtDT(cm.t)} · Day ${dayNo(b.start,cm.t)}</span>${esc(cm.text)}
+          <button class="x" onclick="delComment('${b.id}',${i},${j})">×</button></div>`).join('')}</div>`:''}
+      </div>`).join('')}
+    </div>
+
+    <div class="sec">Daily checks <small>${b.log.length} entries</small></div>
+    <div class="card">
+      ${b.log.length?b.log.slice().sort((x,y)=>y.t.localeCompare(x.t)).map(e=>`
+      <div class="entry">
+        <div class="h"><b>Day ${dayNo(b.start,e.t)} · ${fmtDT(e.t)}</b><button class="muted" style="font-size:18px" onclick="delLog('${b.id}','${e.id}')">×</button></div>
+        <div class="nums">
+          ${e.water?`<span class="pill">💧 ${esc(e.water)} ml</span>`:''}
+          ${e.height?`<span class="pill">📏 ${esc(e.height)} cm</span>`:''}
+          ${e.temp?`<span class="pill">🌡 ${esc(e.temp)}°C</span>`:''}
+          ${(e.tags||[]).map(t=>`<span class="pill ${BAD.includes(t)?'r':''}">${esc(t)}</span>`).join('')}
+        </div>
+        ${e.note?`<p>${esc(e.note)}</p>`:''}
+      </div>`).join(''):`<p class="muted" style="text-align:center;padding:6px 0">No checks yet. Log water, height and how it looks.</p>`}
+      <button class="btn ghost" onclick="addLog('${b.id}')">+ Add daily check</button>
+    </div>
+
+    <div class="sec">Harvest & results</div>
+    <div class="card">
+      ${h.weight?`<div class="stats">
+        <div class="stat"><b>${yieldTray}g</b><span>per tray</span></div>
+        <div class="stat"><b>${ratio?ratio+'×':'—'}</b><span>yield vs seed</span></div>
+        <div class="stat"><b>${days!==''?days:'—'}</b><span>days total</span></div>
+      </div>`:''}
+      <div class="grid2">
+        <div><label class="lbl">Harvest date</label><input id="h-date" type="date" value="${h.date}"></div>
+        <div><label class="lbl">Height (cm)</label><input id="h-height" type="number" inputmode="decimal" value="${esc(h.height)}"></div>
+      </div>
+      <label class="lbl">Total cut weight, all trays (g)</label>
+      <input id="h-weight" type="number" inputmode="decimal" value="${esc(h.weight)}" placeholder="Weigh straight after cutting">
+      <label class="lbl">Taste</label><div class="stars" data-f="taste">${stars(h.taste)}</div>
+      <label class="lbl">Overall quality</label><div class="stars" data-f="quality">${stars(h.quality)}</div>
+      <label class="lbl">What happened to it</label><input id="h-used" value="${esc(h.used)}" placeholder="Juiced, sold, gave away, binned…">
+      <label class="lbl">How did it go?</label><textarea id="h-notes" placeholder="Colour, smell, thickness, any mould…">${esc(h.notes)}</textarea>
+      <label class="lbl">Change next time</label><textarea id="h-next" placeholder="e.g. 10 g more seed, uncover a day earlier">${esc(h.next)}</textarea>
+      <button class="btn" onclick="saveHarvest('${b.id}',false)">Save results</button>
+      ${b.status==='done'
+        ?`<button class="btn ghost" onclick="reopen('${b.id}')">Move back to Growing</button>`
+        :`<button class="btn ghost" onclick="saveHarvest('${b.id}',true)">Save & mark grow finished</button>`}
+      <div class="saved" id="saved">Saved ✓</div>
+    </div>
+
+    <button class="btn ghost" onclick="shareBatch('${b.id}')">Share / copy this log</button>
+    <button class="btn danger" onclick="delBatch('${b.id}')">Delete this grow</button>
+  </main>`;
+  document.querySelectorAll('.stars').forEach(el=>el.querySelectorAll('button').forEach((btn,i)=>btn.onclick=()=>{
+    b.harvest[el.dataset.f]=i+1; save(b); el.innerHTML=stars(i+1); viewBatch(b);
+  }));
+}
+const stars=n=>[1,2,3,4,5].map(i=>`<button class="${i<=n?'on':''}">★</button>`).join('');
+
+/* ============ ACTIONS ============ */
+function toggleStep(id,i){const b=get(id),s=b.steps[i];s.done=!s.done;s.at=s.done?new Date().toISOString():null;save(b);keepScroll(()=>viewBatch(b))}
+
+function openSheet(html){$('#sheet-body').innerHTML=html;document.body.classList.add('sheet-open')}
+function closeSheet(){document.body.classList.remove('sheet-open')}
+$('#sheet-bg').onclick=closeSheet;
+
+function addComment(id,i){
+  const s=get(id).steps[i];
+  openSheet(`<h3>Comment · ${esc(s.t)}</h3>
+    <label class="lbl">When</label><input id="c-t" type="datetime-local" value="${nowLocal()}">
+    <label class="lbl">Comment</label><textarea id="c-text" placeholder="What did you notice or do?"></textarea>
+    <button class="btn" onclick="saveComment('${id}',${i})">Add comment</button>`);
+  setTimeout(()=>$('#c-text').focus(),350);
+}
+function saveComment(id,i){
+  const text=$('#c-text').value.trim(); if(!text) return closeSheet();
+  const b=get(id); b.steps[i].comments.push({t:new Date($('#c-t').value||Date.now()).toISOString(),text});
+  b.steps[i].comments.sort((x,y)=>x.t.localeCompare(y.t)); save(b); closeSheet(); keepScroll(()=>viewBatch(b));
+}
+function delComment(id,i,j){if(!confirm('Delete this comment?'))return;const b=get(id);b.steps[i].comments.splice(j,1);save(b);keepScroll(()=>viewBatch(b))}
+
+let pickTags=[];
+function addLog(id){
+  pickTags=[];
+  openSheet(`<h3>Daily check</h3>
+    <label class="lbl">When</label><input id="l-t" type="datetime-local" value="${nowLocal()}">
+    <div class="grid3">
+      <div><label class="lbl">Water ml</label><input id="l-water" type="number" inputmode="decimal"></div>
+      <div><label class="lbl">Height cm</label><input id="l-height" type="number" inputmode="decimal"></div>
+      <div><label class="lbl">Temp °C</label><input id="l-temp" type="number" inputmode="decimal"></div>
+    </div>
+    <label class="lbl">How does it look?</label>
+    <div class="chips">${TAGS.map(t=>`<button class="chip ${BAD.includes(t)?'bad':''}" onclick="this.classList.toggle('on');pickTags=[...document.querySelectorAll('.chip.on')].map(c=>c.textContent)">${t}</button>`).join('')}</div>
+    <label class="lbl">Notes</label><textarea id="l-note" placeholder="Anything else?"></textarea>
+    <button class="btn" onclick="saveLog('${id}')">Save check</button>`);
+}
+function saveLog(id){
+  const b=get(id);
+  b.log.push({id:uid(),t:new Date($('#l-t').value||Date.now()).toISOString(),water:$('#l-water').value,
+    height:$('#l-height').value,temp:$('#l-temp').value,tags:pickTags,note:$('#l-note').value.trim()});
+  save(b); closeSheet(); keepScroll(()=>viewBatch(b));
+}
+function delLog(id,eid){if(!confirm('Delete this check?'))return;const b=get(id);b.log=b.log.filter(e=>e.id!==eid);save(b);keepScroll(()=>viewBatch(b))}
+
+function saveHarvest(id,finish){
+  const b=get(id),h=b.harvest;
+  h.date=$('#h-date').value; h.weight=$('#h-weight').value; h.height=$('#h-height').value;
+  h.used=$('#h-used').value; h.notes=$('#h-notes').value; h.next=$('#h-next').value;
+  if(finish){ if(!h.date) h.date=today(); b.status='done'; }
+  save(b); keepScroll(()=>viewBatch(b));
+  const s=$('#saved'); s.classList.add('show'); setTimeout(()=>s.classList.remove('show'),1500);
+}
+function reopen(id){const b=get(id);b.status='growing';save(b);keepScroll(()=>viewBatch(b))}
+
+function editSetup(id){
+  const b=get(id);
+  openSheet(`<h3>Edit details</h3>
+    <div class="grid2">
+      <div><label class="lbl">Batch #</label><input id="e-no" type="number" value="${b.no}"></div>
+      <div><label class="lbl">Start date</label><input id="e-start" type="date" value="${b.start}"></div>
+      <div><label class="lbl">Trays</label><input id="e-trays" type="number" value="${b.trays}"></div>
+      <div><label class="lbl">Seed g / tray</label><input id="e-seed" type="number" value="${esc(b.seed)}"></div>
+    </div>
+    <label class="lbl">Tray size</label><input id="e-size" value="${esc(b.size)}">
+    <label class="lbl">Seed supplier / lot</label><input id="e-src" value="${esc(b.src)}">
+    <label class="lbl">Location</label><input id="e-loc" value="${esc(b.loc)}">
+    <label class="lbl">Start notes</label><textarea id="e-note">${esc(b.note)}</textarea>
+    <button class="btn" onclick="saveSetup('${id}')">Save</button>`);
+}
+function saveSetup(id){
+  const b=get(id);
+  Object.assign(b,{no:+$('#e-no').value||b.no,start:$('#e-start').value||b.start,trays:+$('#e-trays').value||1,
+    seed:$('#e-seed').value,size:$('#e-size').value,src:$('#e-src').value,loc:$('#e-loc').value,note:$('#e-note').value});
+  save(b); closeSheet(); viewBatch(b);
+}
+function delBatch(id){if(!confirm('Delete this whole grow? This can’t be undone.'))return;db.batches=db.batches.filter(b=>b.id!==id);cache();remote({action:'delete',id});go('')}
+
+function shareBatch(id){
+  const b=get(id),h=b.harvest,L=[];
+  L.push(`${b.crop} #${b.no} — started ${fmtD(b.start)}`);
+  L.push(`${b.trays} × ${b.size} · seed ${b.seed||'?'} g/tray · ${b.src||''} · ${b.loc||''}`);
+  if(b.note) L.push(`Notes: ${b.note}`);
+  L.push('','STEPS');
+  b.steps.forEach(s=>{L.push(`${s.done?'✓':'○'} ${s.t}${s.at?' — '+fmtDT(s.at):''}`);s.comments.forEach(c=>L.push(`   • ${fmtDT(c.t)}: ${c.text}`))});
+  if(b.log.length){L.push('','DAILY CHECKS');b.log.slice().sort((x,y)=>x.t.localeCompare(y.t)).forEach(e=>L.push(`Day ${dayNo(b.start,e.t)} ${fmtDT(e.t)}: ${[e.water&&e.water+' ml',e.height&&e.height+' cm',e.temp&&e.temp+'°C',...(e.tags||[])].filter(Boolean).join(', ')}${e.note?' — '+e.note:''}`))}
+  L.push('','HARVEST');
+  L.push(`Date ${fmtD(h.date)||'—'} · ${h.weight||'—'} g total · ${h.height||'—'} cm · taste ${h.taste}/5 · quality ${h.quality}/5`);
+  if(h.used) L.push(`Used: ${h.used}`); if(h.notes) L.push(`How it went: ${h.notes}`); if(h.next) L.push(`Next time: ${h.next}`);
+  const text=L.join('\n');
+  if(navigator.share) navigator.share({title:`${b.crop} #${b.no}`,text}).catch(()=>{});
+  else navigator.clipboard?.writeText(text).then(()=>alert('Copied to clipboard'));
+}
+
+render(); pull();
+</script>
+</body>
+</html>
