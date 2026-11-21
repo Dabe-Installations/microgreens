@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Wheatgrass · Tiny Greens</title>
+<meta name="theme-color" content="#3E9150">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Tiny Greens">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#3E9150; --green-dark:#2E6B3A; --mint:#E3F1DD; --cream:#F7F4EC;
+  --ink:#2B332B; --muted:#7A8278; --bar:#A8D5A0; --tip:#FDF0DC; --orange:#E9A23B;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--cream);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,sans-serif;word-spacing:.08em}
+body{padding-bottom:calc(30px + env(safe-area-inset-bottom))}
+.wrap{max-width:560px;margin:0 auto}
+
+/* header */
+header{background:var(--green);color:#fff;border-radius:0 0 30px 30px;padding:calc(14px + env(safe-area-inset-top)) 24px 30px;position:relative;overflow:hidden}
+header .glow{position:absolute;right:-30px;top:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.08)}
+.back{position:relative;display:inline-flex;align-items:center;gap:4px;color:#fff;text-decoration:none;font-weight:700;font-size:15px;background:rgba(255,255,255,.18);padding:7px 15px 7px 11px;border-radius:99px}
+.back:active{transform:scale(.95)}
+.hrow{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-top:14px}
+header h1{font-weight:800;font-size:38px;line-height:1.05;letter-spacing:-.5px}
+header p{font-size:15px;opacity:.95;margin-top:8px}
+header svg{flex:0 0 auto}
+
+main{padding:22px 20px 0}
+
+/* quick facts */
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fact{background:var(--mint);border-radius:16px;padding:14px 14px 16px;position:relative;box-shadow:0 3px 8px rgba(46,107,58,.10);min-height:88px}
+.fact small{display:block;font-size:10.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--muted);padding-right:30px}
+.fact b{display:block;font-weight:700;font-size:17px;line-height:1.3;margin-top:6px}
+.fact .ic{position:absolute;right:10px;top:10px;width:28px;height:28px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center}
+
+/* section titles */
+h2{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;color:var(--green-dark);margin:34px 0 14px}
+
+.card{background:#fff;border-radius:16px;box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.stack{display:flex;flex-direction:column;gap:12px}
+
+/* timeline */
+.tl{display:flex;gap:14px;padding:13px 14px;align-items:flex-start}
+.pill{flex:0 0 82px;background:var(--green);color:#fff;font-weight:700;font-size:13.5px;text-align:center;border-radius:99px;padding:5px 6px;margin-top:2px}
+.tl h3,.step h3,.tr h3{font-weight:700;font-size:15.5px}
+.tl p,.step p{font-size:14.5px;line-height:1.5;margin-top:2px}
+
+/* steps */
+.step{display:flex;gap:14px;padding:16px 16px 18px}
+.num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--green);color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;margin-top:1px}
+
+/* troubleshooting */
+.tr{border-left:7px solid var(--bar);padding:13px 15px 14px 14px}
+.tr p{font-size:14.5px;line-height:1.45;margin-top:4px}
+.tr .c{color:var(--muted)}
+.tr .c span{color:var(--ink)}
+.tr .f b{color:var(--green)}
+
+/* lists */
+.tips{background:var(--tip);border-left:7px solid var(--orange);border-radius:16px;box-shadow:0 3px 10px rgba(0,0,0,.06);padding:14px 16px 14px 14px}
+ul{padding-left:20px}
+li{font-size:14.5px;line-height:1.5;margin:4px 0}
+.need{padding:14px 16px}
+
+footer{text-align:center;color:var(--muted);font-size:12px;margin:34px 0 10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="glow"></div>
+  <a class="back" href="microgreens.html">‹ Microgreens</a>
+  <div class="hrow">
+    <div>
+      <h1>Wheatgrass</h1>
+      <p>Hard red wheat on hemp mats</p>
+    </div>
+    <svg width="120" height="80" viewBox="0 0 120 80" aria-hidden="true">
+      <rect x="6" y="66" width="108" height="10" rx="2" fill="#2E6B3A"/>
+      <rect x="10" y="62" width="100" height="5" rx="2" fill="#E6D3A3"/>
+      <g stroke-linecap="round" fill="none" stroke-width="5">
+        <path d="M16 63C16 46 14 32 10 18" stroke="#B9E0A5"/><path d="M26 63C26 42 25 24 22 6" stroke="#8CCB78"/>
+        <path d="M36 63C36 44 38 28 40 12" stroke="#CDEBBE"/><path d="M46 63C46 40 45 22 44 4" stroke="#9AD386"/>
+        <path d="M56 63C56 44 58 26 62 10" stroke="#B9E0A5"/><path d="M66 63C66 42 66 24 64 6" stroke="#7DBF6A"/>
+        <path d="M76 63C76 44 79 28 83 12" stroke="#CDEBBE"/><path d="M86 63C86 42 86 26 88 8" stroke="#9AD386"/>
+        <path d="M96 63C96 46 99 32 104 18" stroke="#B9E0A5"/><path d="M104 63C104 50 106 40 110 30" stroke="#8CCB78"/>
+      </g>
+    </svg>
+  </div>
+</header>
+
+<main>
+
+  <div class="facts">
+    <div class="fact"><small>Seed</small><b>Hard red wheat berries</b>
+      <span class="ic"><svg width="16" height="16" viewBox="0 0 16 16"><ellipse cx="6" cy="9" rx="2.6" ry="4" transform="rotate(25 6 9)" fill="#C98A4B"/><ellipse cx="11" cy="7" rx="2.6" ry="4" transform="rotate(25 11 7)" fill="#B87636"/></svg></span></div>
+    <div class="fact"><small>Seed per 15x30 tray</small><b>75–90 g dry</b>
+      <span class="ic"><svg width="18" height="12" viewBox="0 0 18 12"><rect x="1" y="8" width="16" height="3" rx="1" fill="#2E6B3A"/><g stroke="#5BAE5B" stroke-width="1.6" stroke-linecap="round"><path d="M3 8V4M6 8V3M9 8V4M12 8V3M15 8V4"/></g></svg></span></div>
+    <div class="fact"><small>Soak</small><b>8–12 hours</b>
+      <span class="ic"><svg width="14" height="16" viewBox="0 0 14 16"><path d="M7 1C7 1 1.5 7.5 1.5 10.5a5.5 5.5 0 0 0 11 0C12.5 7.5 7 1 7 1z" fill="#3E9AD6"/></svg></span></div>
+    <div class="fact"><small>Blackout</small><b>2–4 days, weighted</b>
+      <span class="ic"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M10.5 2a6.5 6.5 0 1 0 3.5 10A5.5 5.5 0 0 1 10.5 2z" fill="#6672A0"/></svg></span></div>
+    <div class="fact"><small>Light</small><b>12–16 hrs per day</b>
+      <span class="ic"><svg width="18" height="18" viewBox="0 0 18 18"><circle cx="9" cy="9" r="3.6" fill="#F2B632"/><g stroke="#F2B632" stroke-width="1.6" stroke-linecap="round"><path d="M9 1.5v2M9 14.5v2M1.5 9h2M14.5 9h2M3.7 3.7l1.4 1.4M12.9 12.9l1.4 1.4M3.7 14.3l1.4-1.4M12.9 5.1l1.4-1.4"/></g></svg></span></div>
+    <div class="fact"><small>Temperature</small><b>18–24°C</b>
+      <span class="ic"><svg width="10" height="18" viewBox="0 0 10 18"><rect x="3" y="1" width="4" height="11" rx="2" fill="#E2604F"/><circle cx="5" cy="13.5" r="3.5" fill="#E2604F"/></svg></span></div>
+    <div class="fact"><small>Harvest</small><b>Day 8–12, at 15–20 cm</b>
+      <span class="ic"><svg width="18" height="16" viewBox="0 0 18 16"><g stroke="#2E6B3A" stroke-width="1.6" stroke-linecap="round"><path d="M4 13L6 3M8 13L10 3M12 13L14 3M2 14h14"/></g></svg></span></div>
+    <div class="fact"><small>Yield per tray</small><b>150–220 g</b>
+      <span class="ic"><svg width="18" height="16" viewBox="0 0 18 16"><path d="M2 7h14l-1.5 7h-11z" fill="#C98A4B"/><g fill="#5BAE5B"><circle cx="5" cy="6" r="2.2"/><circle cx="9" cy="5" r="2.4"/><circle cx="13" cy="6" r="2.2"/></g></svg></span></div>
+  </div>
+
+  <h2><svg width="22" height="26" viewBox="0 0 22 26"><path d="M11 25V12" stroke="#3E9150" stroke-width="2.4" stroke-linecap="round"/><path d="M11 13C11 7 6 4 1 4c0 5 4 9 10 9z" fill="#7CC46E"/><path d="M11 11c0-5 4-9 10-9 0 5-4 9-10 9z" fill="#3E9150"/></svg>Timeline</h2>
+  <div class="stack">
+    <div class="card tl"><span class="pill">Day 0</span><div><h3>Soak</h3><p>Rinse seed well and soak 8–12 hrs in cool water.</p></div></div>
+    <div class="card tl"><span class="pill">Day 0–1</span><div><h3>Pre-sprout (optional)</h3><p>Drain, leave in a jar 12–24 hrs until root tips show. Rinse twice.</p></div></div>
+    <div class="card tl"><span class="pill">Day 1</span><div><h3>Sow</h3><p>Wet the mat, spread seed in one dense layer, mist, cover and weight.</p></div></div>
+    <div class="card tl"><span class="pill">Day 1–4</span><div><h3>Blackout</h3><p>Keep covered. Mist 1–2 times a day so seed stays moist.</p></div></div>
+    <div class="card tl"><span class="pill">Day 3–5</span><div><h3>Uncover</h3><p>When shoots are 2–5 cm and lifting the lid, remove cover, start lights.</p></div></div>
+    <div class="card tl"><span class="pill">Day 4–10</span><div><h3>Grow</h3><p>Bottom-water daily. Fan on low. 12–16 hrs light.</p></div></div>
+    <div class="card tl"><span class="pill">Day 8–12</span><div><h3>Harvest</h3><p>Cut at 15–20 cm, before the second blade splits.</p></div></div>
+  </div>
+
+  <h2><svg width="22" height="26" viewBox="0 0 22 26"><path d="M11 25V12" stroke="#3E9150" stroke-width="2.4" stroke-linecap="round"/><path d="M11 13C11 7 6 4 1 4c0 5 4 9 10 9z" fill="#7CC46E"/><path d="M11 11c0-5 4-9 10-9 0 5-4 9-10 9z" fill="#3E9150"/></svg>Step by step</h2>
+  <div class="stack">
+    <div class="card step"><span class="num">1</span><div><h3>Soak the seed</h3><p>Weigh 75–90 g of dry seed per 15x30 cm tray. Rinse until the water runs clear. For extra mould protection, rinse once in 3% hydrogen peroxide. Soak in cool water for 8–12 hours, then drain and rinse again. Pre-sprouting in a jar for another 12–24 hours gives faster, more even growth.</p></div></div>
+    <div class="card step"><span class="num">2</span><div><h3>Prep the hemp mat</h3><p>Cut the mat to 15x30 cm to fit the tray with no holes. Soak it until it's fully wet, then tip out the extra water. It should be damp all through but not sitting in a puddle.</p></div></div>
+    <div class="card step"><span class="num">3</span><div><h3>Sow thick and even</h3><p>Spread the seed in a single dense layer, edge to edge, with no piles or bare patches. Press it gently into the mat and mist well.</p></div></div>
+    <div class="card step"><span class="num">4</span><div><h3>Blackout and weight (2–4 days)</h3><p>Cover with an upside-down tray and put 1–2 kg on top (a bag of rice or a water bottle works). The weight pushes the roots down into the mat and gives a stronger, more even stand. Mist 1–2 times a day. Lift the cover to check for dry spots or mould.</p></div></div>
+    <div class="card step"><span class="num">5</span><div><h3>Uncover and give light</h3><p>When the shoots are 2–5 cm tall and pushing the lid up, remove the cover. Give 12–16 hours of light a day at 18–24°C. They'll be yellow at first and turn green within a day.</p></div></div>
+    <div class="card step"><span class="num">6</span><div><h3>Water from the bottom</h3><p>Once the roots have grabbed the mat, stop watering from the top. Pour a little water (about 100–150 ml) into the bottom tray each day, just enough for the mat to soak up in an hour or so. Tip out anything left standing. Hemp holds a lot of water, so it needs less than soil. Keep a fan on low.</p></div></div>
+    <div class="card step"><span class="num">7</span><div><h3>Harvest</h3><p>Cut at day 8–12 when the grass is 15–20 cm tall, before a second blade splits off (after that it turns bitter and woody). Use clean, sharp scissors and cut just above the mat. Harvest dry: skip watering for about 12 hours before cutting.</p></div></div>
+    <div class="card step"><span class="num">8</span><div><h3>Store and clean up</h3><p>Store unwashed and dry in a sealed container lined with paper towel in the fridge. Keeps 5–7 days. The used mat and roots go straight into the compost. Wash and sanitise trays before the next batch.</p></div></div>
+  </div>
+
+  <h2><svg width="22" height="26" viewBox="0 0 22 26"><path d="M11 25V12" stroke="#3E9150" stroke-width="2.4" stroke-linecap="round"/><path d="M11 13C11 7 6 4 1 4c0 5 4 9 10 9z" fill="#7CC46E"/><path d="M11 11c0-5 4-9 10-9 0 5-4 9-10 9z" fill="#3E9150"/></svg>Troubleshooting</h2>
+  <div class="stack">
+    <div class="card tr"><h3>Grey/slimy fuzz, bad smell</h3><p class="c">Cause: <span>Mould: too wet, too warm, poor airflow, dirty seed</span></p><p class="f"><b>Fix:</b> Remove badly affected trays. Water less, add a fan, rinse seed better, use the peroxide rinse.</p></div>
+    <div class="card tr"><h3>White fuzz on roots</h3><p class="c">Cause: <span>Usually root hairs (healthy)</span></p><p class="f"><b>Fix:</b> Mist it. Root hairs collapse and disappear; mould doesn't.</p></div>
+    <div class="card tr"><h3>Patchy, uneven growth</h3><p class="c">Cause: <span>Seed sown unevenly or mat dried out in blackout</span></p><p class="f"><b>Fix:</b> Spread seed edge to edge, weight the cover, mist daily in blackout.</p></div>
+    <div class="card tr"><h3>Pale, floppy grass</h3><p class="c">Cause: <span>Not enough light or uncovered too late</span></p><p class="f"><b>Fix:</b> Increase light hours or move closer to the light. Uncover at 2–5 cm.</p></div>
+    <div class="card tr"><h3>Bitter or tough taste</h3><p class="c">Cause: <span>Harvested too late (second blade)</span></p><p class="f"><b>Fix:</b> Cut earlier, at 15–20 cm.</p></div>
+    <div class="card tr"><h3>Roots lifting off mat</h3><p class="c">Cause: <span>No weight in blackout, or mat too dry</span></p><p class="f"><b>Fix:</b> Weight the cover and keep the mat damp.</p></div>
+    <div class="card tr"><h3>Sour smell from tray</h3><p class="c">Cause: <span>Water sitting in the bottom tray</span></p><p class="f"><b>Fix:</b> Tip out leftover water. Only add what the mat absorbs.</p></div>
+  </div>
+
+  <h2><svg width="22" height="26" viewBox="0 0 22 26"><path d="M11 25V12" stroke="#3E9150" stroke-width="2.4" stroke-linecap="round"/><path d="M11 13C11 7 6 4 1 4c0 5 4 9 10 9z" fill="#7CC46E"/><path d="M11 11c0-5 4-9 10-9 0 5-4 9-10 9z" fill="#3E9150"/></svg>Key tips</h2>
+  <div class="tips"><ul>
+    <li>Damp, not soggy. Overwatering is the number one cause of failed wheatgrass.</li>
+    <li>Airflow matters more in warm weather. Run a small fan on low from uncovering to harvest.</li>
+    <li>Fuzzy white root hairs are normal. Mist to check before throwing a tray out.</li>
+    <li>Harvest before the second blade appears for the sweetest taste.</li>
+    <li>Write down sow date, seed weight and yield for each tray so you can compare batches.</li>
+  </ul></div>
+
+  <h2><svg width="22" height="26" viewBox="0 0 22 26"><path d="M11 25V12" stroke="#3E9150" stroke-width="2.4" stroke-linecap="round"/><path d="M11 13C11 7 6 4 1 4c0 5 4 9 10 9z" fill="#7CC46E"/><path d="M11 11c0-5 4-9 10-9 0 5-4 9-10 9z" fill="#3E9150"/></svg>You'll need</h2>
+  <div class="card need"><ul>
+    <li>Hard red wheat seed</li>
+    <li>Hemp mats</li>
+    <li>15x30 cm tray with no holes</li>
+    <li>15x30 cm tray with holes (or a lid tray)</li>
+    <li>1–2 kg weight</li>
+    <li>Spray bottle</li>
+    <li>LED grow light or a bright window</li>
+    <li>Small fan</li>
+    <li>Clean scissors or knife</li>
+    <li>3% hydrogen peroxide (optional)</li>
+  </ul></div>
+
+  <footer>Internal growing guide · MG-01 · v1.3</footer>
+</main>
+</div>
+</body>
+</html>
